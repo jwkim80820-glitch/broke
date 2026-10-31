@@ -20,3 +20,16 @@ CC0는 출처 표시 없이 자유롭게 써도 되지만, 찾아볼 수 있도�
 - 80 CC0 creture SFX #2 (슬라임 8종) https://opengameart.org/content/80-cc0-creture-sfx-2
 - 8 wet squish, slurp impacts      https://opengameart.org/content/8-wet-squish-slurp-impacts
 - Slime ultimate the best          https://opengameart.org/content/slime-ultimate-the-best
+- Squeak toy sounds                https://opengameart.org/content/squeak-toy-sounds
+- apple bite                       https://opengameart.org/content/apple-bite
+- balloon sounds                   https://opengameart.org/content/balloon-sounds
+- bubble sound effects             https://opengameart.org/content/bubble-sound-effects
+- boing                            https://opengameart.org/content/boing
+- boings                           https://opengameart.org/content/boings
+- bell dings/chimes                https://opengameart.org/content/bell-dingschimes
+- gold coin 6                      https://opengameart.org/content/gold-coin-6
+- freeze spell                     https://opengameart.org/content/freeze-spell-0
+- 100 CC0 SFX                      https://opengameart.org/content/100-cc0-sfx
+- slimy monster / murder sounds    https://opengameart.org/content/slimy-monster-or-murder-sounds9
+- various sound effects (snd_splat, snd_splathit, snd_splurt, snd_yoghurtblast, nom, glug) https://opengameart.org/content/various-sound-effects-0
+- Squish Sounds Effects (말랑이 squish_01~06, squishpop) https://opengameart.org/content/squish-sounds-effects

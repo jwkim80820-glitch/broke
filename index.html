@@ -684,18 +684,18 @@ const SAMPLE_MAP = {
     smash: { keys: ['p3_1', 'p3_2', 'p3_3', 'pop_0'], rate: [0.95, 1.1], gain: 1, multi: [3, 5] }
   },
   ice: {
-    hit: { keys: ['crunch_10', 'crunch_9', 'tito_5'], rate: [1.3, 1.55], gain: 0.8 },
-    smash: { keys: ['glass_01', 'glass_03', 'crunch_6'], rate: [1.15, 1.3], gain: 0.9 },
+    hit: { keys: ['ice_h1', 'ice_h2', 'ice_h3'], rate: [0.95, 1.1], gain: 0.85 },
+    smash: { keys: ['ice_s1', 'ice_s2', 'ice_s3'], rate: [0.95, 1.05], gain: 0.95 },
     layer: 0.5
   },
   rainbow: {
     hit: { keys: ['pop_base'], rate: 'note', gain: 1 },
-    smash: { keys: ['p3_2', 'p3_3'], rate: [1.1, 1.3], gain: 0.9 },
+    smash: { keys: ['rb_s1', 'rb_s2', 'rb_s3'], rate: [0.95, 1.1], gain: 0.7, multi: [2, 3] },
     layer: 0.6
   },
   gold: {
     hit: { keys: ['metal_01', 'metal_02', 'metal_03', 'metal_04', 'metal_05', 'metal_06'], rate: [0.85, 1.0], gain: 0.9 },
-    smash: { keys: ['metal_02', 'metal_03', 'metal_06'], rate: [0.7, 0.8], gain: 1.1 },
+    smash: { keys: ['gold_s1', 'gold_s2', 'gold_s3'], rate: [0.95, 1.05], gain: 1.0 },
     layer: 0.7
   }
 };
@@ -732,29 +732,40 @@ function playSound(style, kind, pan, n) {
 }
 
 /* 말랑이/슬라임 소리: press 누를 때, hold 꾹 누르는 동안, move 슬라임을 끌 때, release 놓을 때, snap 늘린 걸 놓을 때 */
+/* 종류마다 자기만의 소리 세트를 쓴다. 다른 종류와 같은 파일을 나눠 쓰지 않는다 */
 const SOFT_SND = {
-  squishy: {
-    press: ['squish_01', 'squish_02', 'squish_03', 'squish_04', 'squish_05', 'squish_06'],
-    hold: ['squish_02', 'squish_04', 'squish_05'],
-    release: ['squish_pop', 'squish_splat', 'squish_pop']
+  // 말랑이: 마른 스퀴시와 통통 튀는 소리
+  paw: { press: ['paw_p1', 'paw_p2'], hold: ['paw_h1'], release: ['paw_r1'] },
+  peach: { press: ['peach_p1', 'peach_p2'], hold: ['peach_h1'], release: ['peach_r1', 'peach_r2'] },
+  berry: { press: ['berry_p1', 'berry_p2', 'berry_p3', 'berry_p4'], hold: ['berry_h1', 'berry_h2'], release: ['berry_r1', 'berry_r2'] },
+  toast: { press: ['toast_p1', 'toast_p2'], hold: ['toast_h1'], release: ['toast_r1', 'toast_r2', 'toast_r3'] },
+  pudding: { press: ['pud_p1', 'pud_p2', 'pud_p3'], hold: ['pud_h1'], release: ['pud_r1', 'pud_r2'] },
+  // 슬라임: 젖은 점액과 물방울 소리
+  green: {
+    press: ['gel_2', 'gel_3', 'gel_5'], hold: ['gel_9'], move: ['gel_1', 'gel_4', 'gel_7', 'gel_8', 'gel_10'],
+    release: ['gel_6'], snap: ['slime_step', 'gel_6']
   },
-  slime: {
-    press: ['gel_2', 'gel_3', 'gel_5', 'goo_1', 'goo_4', 'slime_01', 'wet_7'],
-    hold: ['bubble_01', 'bubble_02', 'bubble_03', 'goo_6', 'gel_9'],
-    move: ['gel_1', 'gel_4', 'gel_6', 'gel_7', 'gel_8', 'gel_10', 'goo_2', 'goo_3', 'goo_5', 'goo_8',
-      'slime_03', 'slime_05', 'slime_07', 'slime_09', 'slime_10', 'slime_13', 'slime_15', 'slime_step'],
-    release: ['bubble_01', 'bubble_02', 'bubble_03', 'goo_7', 'gel_6'],
-    snap: ['wet_1', 'wet_3', 'wet_8', 'mud_17', 'squish_splat']
+  glitter: {
+    press: ['goo_1', 'goo_4'], hold: ['goo_6'], move: ['goo_2', 'goo_3', 'goo_5', 'goo_8'],
+    release: ['goo_7', 'glit_b1'], snap: ['glit_b2', 'goo_7']
+  },
+  galaxy: {
+    press: ['gal_p1', 'gal_p2'], hold: ['gal_h1'], move: ['gal_m1', 'gal_m2', 'gal_m3', 'gal_m4'],
+    release: ['gal_r1'], snap: ['gal_s1', 'gal_s2']
+  },
+  clear: {
+    press: ['bub_a', 'bub_b', 'bubble_01'], hold: ['bubble_02'], move: ['bub_c', 'clr_m1', 'clr_m2'],
+    release: ['bubble_03', 'bub_a'], snap: ['clr_s1', 'clr_s2']
   }
 };
 
 function playSoft(kind, def, power, pan) {
   if (save.muted || !audio.ctx) return;
-  const group = SOFT_SND[def.group];
+  const group = SOFT_SND[def.id];
   const keys = (group[kind] || group.press).filter(k => audio.buf[k]);
   const gain = { press: 0.65 + 0.4 * power, hold: 0.3 + 0.2 * power, move: 0.3 + 0.4 * power, release: 0.55 + 0.4 * power, snap: 0.9 + 0.2 * power }[kind] || 0.7;
   if (keys.length) {
-    playSample(pick(keys), { gain, rate: def.rate * rand(0.93, 1.07) * (kind === 'hold' ? 0.9 : 1), pan });
+    playSample(pick(keys), { gain: gain * 0.6, rate: rand(0.94, 1.06), pan });
     return;
   }
   // 녹음 소리가 없을 때의 합성음
