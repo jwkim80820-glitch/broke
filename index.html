@@ -358,18 +358,27 @@ const BALLS = [
    k: 원래 모양으로 돌아오는 힘, damp: 출렁임을 잡는 정도(작을수록 오래 출렁),
    wave: 출렁임이 옆으로 퍼지는 정도, depth: 꾹 눌렀을 때 들어가는 깊이, rate: 소리 음높이 */
 const SOFT = {
+  // 시중에 있는 말랑이 장난감 모양. outline: 윤곽을 이루는 원/둥근 사각형들의 합 (반지름 1 기준)
   squishy: [
-    { id: 'mochi', name: '모찌 말랑이', sound: '말랑말랑 꾹', k: 95, damp: 7, wave: 40, depth: 0.5, rate: 1.0,
-      col: ['#fffafc', '#ffd6e5', '#ee9fbd'], rim: '#c2688a', kind: 'mochi', face: true,
-      shard: ['#ffffff', '#ffd6e5', '#ffb6cf'], shape: 'bead' },
-    { id: 'jelly', name: '젤리 말랑이', sound: '탱글탱글 흔들흔들', k: 170, damp: 4.5, wave: 80, depth: 0.45, rate: 1.18,
-      col: ['rgba(255,196,210,.96)', 'rgba(255,96,130,.9)', 'rgba(185,28,70,.96)'], rim: '#9b1c43', kind: 'jelly', face: true,
-      shard: ['#ff8aa5', '#ffd1dc', '#ffffff'], shape: 'bead' },
-    { id: 'marsh', name: '마시멜로 말랑이', sound: '폭신폭신', k: 120, damp: 11, wave: 50, depth: 0.42, rate: 0.86,
-      col: ['#ffffff', '#fff0c4', '#efd088'], rim: '#b08a3c', kind: 'marsh', face: true,
-      shard: ['#ffffff', '#fff0c4', '#ffe29a'], shape: 'bead' },
-    { id: 'pudding', name: '푸딩 말랑이', sound: '말랑 출렁', k: 70, damp: 3.5, wave: 60, depth: 0.5, rate: 0.8,
-      col: ['#fff7bd', '#ffd75a', '#e5a52c'], rim: '#a8721a', kind: 'pudding', face: true,
+    { id: 'paw', name: '냥이 발 말랑이', sound: '꾹꾹이 말랑말랑', k: 110, damp: 6.5, wave: 40, depth: 0.5, rate: 1.0,
+      col: ['#fffaf5', '#ffe5dc', '#f0b4a8'], rim: '#c27d73', kind: 'paw',
+      outline: [[0, 0.28, 0.66], [-0.62, -0.22, 0.27], [-0.22, -0.58, 0.28], [0.22, -0.58, 0.28], [0.62, -0.22, 0.27]],
+      shard: ['#ffffff', '#ffc9d3', '#ff8fa8'], shape: 'bead' },
+    { id: 'peach', name: '복숭아 말랑이', sound: '보들보들 말랑', k: 85, damp: 7, wave: 40, depth: 0.5, rate: 0.95,
+      col: ['#fff1e2', '#ffc3a0', '#ee7c6c'], rim: '#b9503f', kind: 'peach', face: true, faceY: 0.15,
+      outline: [[-0.05, 0.05, 0.86], [0.05, 0.05, 0.86]],
+      shard: ['#ffc3a0', '#ffe3d0', '#ee7c6c'], shape: 'bead' },
+    { id: 'berry', name: '딸기 말랑이', sound: '탱글탱글 꾹', k: 130, damp: 5.5, wave: 55, depth: 0.45, rate: 1.1,
+      col: ['#ff9aa0', '#ff3d55', '#b3102c'], rim: '#7d0a1c', kind: 'berry', face: true, faceY: 0.05,
+      outline: [[-0.36, -0.25, 0.52], [0.36, -0.25, 0.52], [0, 0.12, 0.66], [0, 0.45, 0.4]],
+      shard: ['#ff5c70', '#ffb3bb', '#ffe08a'], shape: 'bead' },
+    { id: 'toast', name: '식빵 말랑이', sound: '천천히 올라오는 느낌', k: 40, damp: 12, wave: 30, depth: 0.5, rate: 0.85,
+      col: ['#f4bc78', '#d6903f', '#9a621f'], inner: ['#fff8e1', '#ffeab5', '#f3cf8a'], rim: '#7a4a14', kind: 'toast', face: true, faceY: 0.22,
+      outline: [[0, 0.18, 0.74, 0.56, 0.2], [-0.4, -0.4, 0.38], [0.4, -0.4, 0.38]],
+      shard: ['#f4bc78', '#fff0c8', '#d6903f'], shape: 'bead' },
+    { id: 'pudding', name: '푸딩 말랑이', sound: '출렁출렁', k: 60, damp: 3.2, wave: 60, depth: 0.5, rate: 0.8,
+      col: ['#fff7bd', '#ffd75a', '#e5a52c'], rim: '#a8721a', kind: 'pudding', face: true, faceY: 0.3,
+      outline: [[0, -0.2, 0.7], [0, 0.4, 0.8, 0.46, 0.22]],
       shard: ['#ffd75a', '#fff7bd', '#8a4a12'], shape: 'bead' }
   ],
   slime: [
@@ -412,7 +421,7 @@ const SAVE_KEY = 'wakppu-ball-v2';
 function loadSave() {
   const fresh = {
     counts: { wax: 0, squishy: 0, slime: 0 },
-    selected: { wax: 'basic', squishy: 'mochi', slime: 'green' },
+    selected: { wax: 'basic', squishy: 'paw', slime: 'green' },
     tab: 'wax',
     muted: false
   };
@@ -436,7 +445,7 @@ function writeSave() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* 저장이 막힌 브라우저에서는 이번 판만 유지 */ }
 }
 const save = loadSave();
-const defOf = (tab, id) => TABS[tab].list.find(d => d.id === id);
+const defOf = (tab, id) => TABS[tab].list.find(d => d.id === id) || TABS[tab].list[0];
 
 /* ---------- 소리 ----------
    실제 녹음(CC0) 소리는 sounds.js 에 들어 있고, 못 불러왔을 때를 위해 Web Audio 합성음을 대신 쓴다. */
@@ -730,11 +739,12 @@ const SOFT_SND = {
     release: ['squish_pop', 'squish_splat', 'squish_pop']
   },
   slime: {
-    press: ['slime_01', 'slime_02', 'slime_03', 'slime_04', 'mud_05'],
-    hold: ['bubble_01', 'bubble_02', 'bubble_03'],
-    move: ['slime_05', 'slime_06', 'slime_07', 'slime_08', 'slime_09', 'slime_10', 'slime_11', 'slime_13', 'slime_14', 'slime_15', 'slime_16', 'mud_09'],
-    release: ['bubble_01', 'bubble_02', 'bubble_03', 'slime_03'],
-    snap: ['squish_splat', 'mud_17', 'mud_19']
+    press: ['gel_2', 'gel_3', 'gel_5', 'goo_1', 'goo_4', 'slime_01', 'wet_7'],
+    hold: ['bubble_01', 'bubble_02', 'bubble_03', 'goo_6', 'gel_9'],
+    move: ['gel_1', 'gel_4', 'gel_6', 'gel_7', 'gel_8', 'gel_10', 'goo_2', 'goo_3', 'goo_5', 'goo_8',
+      'slime_03', 'slime_05', 'slime_07', 'slime_09', 'slime_10', 'slime_13', 'slime_15', 'slime_step'],
+    release: ['bubble_01', 'bubble_02', 'bubble_03', 'goo_7', 'gel_6'],
+    snap: ['wet_1', 'wet_3', 'wet_8', 'mud_17', 'squish_splat']
   }
 };
 
@@ -975,8 +985,50 @@ function addDamage(state, hx, hy) {
 /* ---------- 말랑이 / 슬라임 몸체 ----------
    몸 둘레를 NP개 점으로 나누고, 각 점이 기준 반지름에서 얼마나 벗어났는지(d)를 스프링으로 움직인다.
    누르면 그 방향이 들어가고(몸 전체 부피는 거의 일정), 놓으면 출렁이며 돌아온다. */
-const NP = 64;
+const NP = 96;
 const ZERO_D = new Float32Array(NP);
+const ONES = new Float32Array(NP).fill(1);
+
+function insideOutline(parts, x, y) {
+  for (const p of parts) {
+    if (p.length === 3) {
+      if (Math.hypot(x - p[0], y - p[1]) <= p[2]) return true;
+    } else { // 둥근 사각형 [중심x, 중심y, 반너비, 반높이, 모서리]
+      const qx = Math.abs(x - p[0]) - (p[2] - p[4]), qy = Math.abs(y - p[1]) - (p[3] - p[4]);
+      if (Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) <= p[4]) return true;
+    }
+  }
+  return false;
+}
+
+/* 윤곽(outline)이 있는 종류는 중심에서 각도별로 바깥으로 뻗어 가장 먼 안쪽 점까지를 기준 반지름(rest)으로 삼는다.
+   가장 먼 곳이 1이 되게 줄이고, 그 비율(scale)과 바닥 위치(bottom)도 같이 저장해 그림과 그림자 위치에 쓴다 */
+function shapeInfo(def) {
+  if (def._info) return def._info;
+  const info = { rest: ONES, scale: 1, bottom: 1 };
+  if (def.outline) {
+    const raw = new Float32Array(NP);
+    for (let i = 0; i < NP; i++) {
+      const cs = Math.cos((i * TAU) / NP), sn = Math.sin((i * TAU) / NP);
+      let t = 0;
+      for (let s = 0; s <= 2; s += 0.005) if (insideOutline(def.outline, cs * s, sn * s)) t = s;
+      raw[i] = t;
+    }
+    const rest = new Float32Array(NP);
+    for (let i = 0; i < NP; i++) rest[i] = raw[(i + NP - 1) % NP] * 0.25 + raw[i] * 0.5 + raw[(i + 1) % NP] * 0.25;
+    const mx = Math.max(...rest);
+    info.scale = 1 / mx;
+    let bottom = 0;
+    for (let i = 0; i < NP; i++) {
+      rest[i] *= info.scale;
+      bottom = Math.max(bottom, rest[i] * Math.sin((i * TAU) / NP));
+    }
+    info.rest = rest;
+    info.bottom = bottom;
+  }
+  def._info = info;
+  return info;
+}
 
 function makeBlob(def) {
   return {
@@ -1001,51 +1053,94 @@ function tracePath(c, pts) {
 }
 
 const SOFT_DECO = {
-  mochi(c, R) {
-    const g = c.createRadialGradient(R * 0.1, R * 0.5, R * 0.1, 0, 0, R * 1.1);
-    g.addColorStop(0, 'rgba(255,255,255,0)');
-    g.addColorStop(1, 'rgba(255,255,255,.3)');
-    c.fillStyle = g;
-    c.fillRect(-R * 1.5, -R * 1.5, R * 3, R * 3);
+  // 냥이 발: 말랑이 몸통에 분홍 발바닥 젤리(큰 패드 하나, 콩 모양 발가락 패드 넷)
+  paw(c, R, d, now, def, info) {
+    const S = R * info.scale;
+    const pad = (x, y, rx, ry, rot) => {
+      const g = c.createRadialGradient((x - rx * 0.3) * S, (y - ry * 0.4) * S, 0, x * S, y * S, Math.max(rx, ry) * S * 1.2);
+      g.addColorStop(0, '#ffc0cf');
+      g.addColorStop(1, '#ff7a9a');
+      c.fillStyle = g;
+      c.beginPath();
+      c.ellipse(x * S, y * S, rx * S, ry * S, rot, 0, TAU);
+      c.fill();
+      c.fillStyle = 'rgba(255,255,255,.5)';
+      c.beginPath();
+      c.ellipse((x - rx * 0.3) * S, (y - ry * 0.42) * S, rx * S * 0.32, ry * S * 0.2, rot, 0, TAU);
+      c.fill();
+    };
+    pad(0, 0.36, 0.33, 0.25, 0);
+    pad(-0.17, 0.14, 0.14, 0.12, 0);
+    pad(0.17, 0.14, 0.14, 0.12, 0);
+    pad(-0.62, -0.18, 0.13, 0.17, -0.45);
+    pad(-0.22, -0.52, 0.13, 0.17, -0.12);
+    pad(0.22, -0.52, 0.13, 0.17, 0.12);
+    pad(0.62, -0.18, 0.13, 0.17, 0.45);
   },
-  jelly(c, R) {
-    const g = c.createRadialGradient(0, 0, R * 0.1, 0, 0, R);
-    g.addColorStop(0, 'rgba(255,255,255,.32)');
-    g.addColorStop(0.7, 'rgba(255,255,255,0)');
+  // 복숭아: 가운데 갈라진 선과 볼 쪽 붉은 물듦
+  peach(c, R, d, now, def, info) {
+    const S = R * info.scale;
+    const g = c.createRadialGradient(S * 0.5, S * 0.3, 0, S * 0.5, S * 0.3, S * 0.9);
+    g.addColorStop(0, 'rgba(255,90,110,.45)');
+    g.addColorStop(1, 'rgba(255,90,110,0)');
     c.fillStyle = g;
-    c.fillRect(-R * 1.5, -R * 1.5, R * 3, R * 3);
-    c.strokeStyle = 'rgba(255,255,255,.4)';
-    c.lineWidth = R * 0.035;
+    c.fillRect(-R * 2, -R * 2, R * 4, R * 4);
+    c.strokeStyle = 'rgba(190,70,60,.5)';
+    c.lineCap = 'round';
+    c.lineWidth = R * 0.03;
     c.beginPath();
-    c.arc(0, 0, R * 0.82, 0.5, 1.9);
+    c.moveTo(0, -S * 0.86);
+    c.quadraticCurveTo(S * 0.2, -S * 0.1, S * 0.02, S * 0.55);
     c.stroke();
   },
-  marsh(c, R) {
-    c.fillStyle = 'rgba(205,170,100,.2)';
-    for (let i = 0; i < 5; i++) {
+  // 딸기: 노란 씨앗
+  berry(c, R, d, now, def, info) {
+    const S = R * info.scale;
+    const seeds = [[-0.55, -0.35], [-0.2, -0.5], [0.2, -0.5], [0.55, -0.35], [-0.68, -0.05], [0.68, -0.05],
+      [-0.4, 0.2], [0.4, 0.2], [-0.2, 0.45], [0.2, 0.45], [0, 0.62], [-0.08, -0.3], [0.1, -0.22], [0, 0.34]];
+    seeds.forEach(([x, y]) => {
+      c.fillStyle = '#ffe9a0';
+      c.strokeStyle = 'rgba(140,20,30,.45)';
+      c.lineWidth = Math.max(0.6, R * 0.008);
       c.beginPath();
-      c.arc(R * (-0.55 + i * 0.28), R * (0.55 + 0.08 * (i % 2)), R * 0.04, 0, TAU);
+      c.ellipse(x * S, y * S, S * 0.028, S * 0.05, 0, 0, TAU);
       c.fill();
-    }
+      c.stroke();
+    });
   },
-  pudding(c, R) {
-    const g = c.createLinearGradient(0, -R, 0, -R * 0.25);
+  // 식빵: 갈색 껍질 안쪽에 부드러운 속살, 버터 한 조각
+  toast(c, R, d, now, def, info) {
+    const S = R * info.scale;
+    c.fillStyle = '#ffe27a';
+    c.strokeStyle = 'rgba(160,110,20,.5)';
+    c.lineWidth = Math.max(0.8, R * 0.012);
+    c.beginPath();
+    c.roundRect ? c.roundRect(S * 0.14, -S * 0.3, S * 0.3, S * 0.18, S * 0.03) : c.rect(S * 0.14, -S * 0.3, S * 0.3, S * 0.18);
+    c.fill();
+    c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.6)';
+    c.fillRect(S * 0.17, -S * 0.28, S * 0.12, S * 0.03);
+  },
+  // 푸딩: 윗부분 캐러멜 소스
+  pudding(c, R, d, now, def, info) {
+    const S = R * info.scale;
+    const edge = -S * 0.32;
+    const g = c.createLinearGradient(0, -S, 0, edge);
     g.addColorStop(0, '#b8651c');
     g.addColorStop(1, '#7a3d0c');
     c.fillStyle = g;
     c.beginPath();
-    c.moveTo(-R * 1.5, -R * 1.5);
-    c.lineTo(R * 1.5, -R * 1.5);
-    c.lineTo(R * 1.5, -R * 0.42);
-    for (let i = 0; i <= 12; i++) {
-      const x = R * (1.5 - i * 0.25);
-      c.lineTo(x, -R * (0.42 + 0.08 * Math.sin(i * 1.7) + (i % 3 === 0 ? 0.1 : 0)));
+    c.moveTo(-R * 2, -R * 2);
+    c.lineTo(R * 2, -R * 2);
+    c.lineTo(R * 2, edge);
+    for (let i = 0; i <= 16; i++) {
+      c.lineTo(R * (2 - i * 0.25), edge + S * (0.08 * Math.sin(i * 1.7) + (i % 3 === 0 ? 0.1 : 0)));
     }
     c.closePath();
     c.fill();
     c.fillStyle = 'rgba(255,225,170,.4)';
     c.beginPath();
-    c.ellipse(-R * 0.35, -R * 0.74, R * 0.22, R * 0.06, -0.2, 0, TAU);
+    c.ellipse(-S * 0.3, -S * 0.62, S * 0.2, S * 0.05, -0.2, 0, TAU);
     c.fill();
   },
   green(c, R, d) {
@@ -1149,15 +1244,16 @@ function drawFace(c, R, squeeze) {
 
 function drawSoft(c, def, b, cx, cy, R, now, floorY) {
   const d = b ? b.d : ZERO_D;
+  const info = shapeInfo(def);
   const sq = b ? b.sq : 0;
   const sx = 1 + 0.55 * sq, sy = 1 - sq;
-  const ccx = cx, ccy = cy + R * sq; // 눌릴 때 바닥에 붙어 있는 느낌
+  const ccx = cx, ccy = cy + R * sq * info.bottom; // 눌릴 때 바닥에 붙어 있는 느낌
   const breath = b ? 0.012 * Math.sin(now * 2.2 + b.phase) : 0;
   const pts = [];
   let maxD = 0;
   for (let i = 0; i < NP; i++) {
     const a = (i * TAU) / NP;
-    const r = R * (1 + d[i] + breath * Math.cos(a * 2));
+    const r = R * (info.rest[i] + d[i] + breath * Math.cos(a * 2));
     pts.push([ccx + Math.cos(a) * r * sx, ccy + Math.sin(a) * r * sy]);
     if (d[i] > maxD) maxD = d[i];
   }
@@ -1182,14 +1278,30 @@ function drawSoft(c, def, b, cx, cy, R, now, floorY) {
   c.save();
   c.translate(ccx, ccy);
   c.scale(sx, sy);
-  SOFT_DECO[def.kind](c, R, b ? b.deco : makeDeco(7), now);
+  if (def.inner) {
+    // 식빵: 갈색 껍질 안쪽에 속살 색을 한 겹 더 칠한다
+    const k = 0.84;
+    tracePath(c, pts.map(p => [(p[0] - ccx) / sx * k, (p[1] - ccy) / sy * k]));
+    const cream = c.createRadialGradient(-R * 0.3, -R * 0.4, R * 0.05, 0, 0, R);
+    cream.addColorStop(0, def.inner[0]);
+    cream.addColorStop(0.6, def.inner[1]);
+    cream.addColorStop(1, def.inner[2]);
+    c.fillStyle = cream;
+    c.fill();
+  }
+  SOFT_DECO[def.kind](c, R, b ? b.deco : makeDeco(7), now, def, info);
   const rim = c.createRadialGradient(-R * 0.2, -R * 0.25, R * 0.5, 0, 0, R * 1.05 * ext);
   rim.addColorStop(0, 'rgba(20,5,30,0)');
   rim.addColorStop(1, 'rgba(20,5,30,.36)');
   c.fillStyle = rim;
   c.fillRect(-R * 6, -R * 6, R * 12, R * 12);
-  if (def.face) drawFace(c, R, b && b.pressing ? b.depth / def.depth : 0);
-  const clearish = def.kind === 'jelly' || def.kind === 'clear';
+  if (def.face) {
+    c.save();
+    c.translate(0, R * (def.faceY || 0) * info.scale);
+    drawFace(c, R, b && b.pressing ? b.depth / def.depth : 0);
+    c.restore();
+  }
+  const clearish = def.kind === 'clear';
   c.fillStyle = `rgba(255,255,255,${clearish ? 0.5 : 0.36})`;
   c.beginPath();
   c.ellipse(-R * 0.34, -R * 0.5, R * 0.28, R * 0.15, -0.55, 0, TAU);
@@ -1206,7 +1318,61 @@ function drawSoft(c, def, b, cx, cy, R, now, floorY) {
   c.lineWidth = Math.max(1, R * 0.02);
   c.stroke();
   c.globalAlpha = 1;
+
+  // 몸 위쪽에 붙는 장식(잎, 꼭지, 체리)은 몸을 따라 움직이도록 맨 위 점에 그린다
+  if (SOFT_TOP[def.kind]) SOFT_TOP[def.kind](c, pts[(NP * 3) / 4], R, sx, sy);
 }
+
+const SOFT_TOP = {
+  peach(c, p, R, sx, sy) {
+    c.save();
+    c.translate(p[0], p[1]);
+    c.scale(sx, sy);
+    c.fillStyle = '#7a4a1c';
+    c.fillRect(-R * 0.02, -R * 0.17, R * 0.04, R * 0.2);
+    c.fillStyle = '#58b84b';
+    [[-1, -0.5], [1, 0.5]].forEach(([s, rot]) => {
+      c.beginPath();
+      c.ellipse(s * R * 0.17, -R * 0.1, R * 0.19, R * 0.08, rot, 0, TAU);
+      c.fill();
+    });
+    c.restore();
+  },
+  berry(c, p, R, sx, sy) {
+    c.save();
+    c.translate(p[0], p[1]);
+    c.scale(sx, sy);
+    c.fillStyle = '#4fae3f';
+    for (let k = -2; k <= 2; k++) {
+      const a = Math.PI / 2 + k * 0.62;
+      c.beginPath();
+      c.ellipse(Math.cos(a) * R * 0.13, Math.sin(a) * R * 0.1 - R * 0.02, R * 0.16, R * 0.06, a, 0, TAU);
+      c.fill();
+    }
+    c.fillStyle = '#3a8a30';
+    c.fillRect(-R * 0.025, -R * 0.15, R * 0.05, R * 0.17);
+    c.restore();
+  },
+  pudding(c, p, R, sx, sy) {
+    c.save();
+    c.translate(p[0], p[1]);
+    c.scale(sx, sy);
+    c.strokeStyle = '#4a7a2a';
+    c.lineWidth = R * 0.025;
+    c.beginPath();
+    c.moveTo(0, -R * 0.06);
+    c.quadraticCurveTo(R * 0.06, -R * 0.2, R * 0.16, -R * 0.24);
+    c.stroke();
+    const g = c.createRadialGradient(-R * 0.03, -R * 0.07, 0, 0, -R * 0.04, R * 0.12);
+    g.addColorStop(0, '#ff7a8a');
+    g.addColorStop(1, '#c4162e');
+    c.fillStyle = g;
+    c.beginPath();
+    c.arc(0, -R * 0.04, R * 0.11, 0, TAU);
+    c.fill();
+    c.restore();
+  }
+};
 
 /* ---------- 게임 상태 ---------- */
 const app = document.getElementById('app');
@@ -1648,10 +1814,12 @@ function draw() {
     const scale = popScale(blob.grow);
     ctx.save();
     // 등장 효과는 바닥 가운데를 기준으로 커진다
-    ctx.translate(view.cx, view.cy + R);
+    const base = view.cy + R * shapeInfo(blob.def).bottom;
+    ctx.translate(view.cx, base);
     ctx.scale(scale, scale);
-    ctx.translate(-view.cx, -(view.cy + R));
-    drawSoft(ctx, blob.def, blob, view.cx + blob.ox * R, view.cy + blob.oy * R, R, clock, view.cy + R * 1.04);
+    ctx.translate(-view.cx, -base);
+    const floorY = view.cy + R * shapeInfo(blob.def).bottom * 1.04;
+    drawSoft(ctx, blob.def, blob, view.cx + blob.ox * R, view.cy + blob.oy * R, R, clock, floorY);
     ctx.restore();
   }
 
@@ -1711,7 +1879,7 @@ function renderShelf() {
       drawBall(c, def, 24, makeDeco(i * 97 + 11), null, 0.5);
     } else {
       c.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawSoft(c, def, null, 26, 26, 21, 0.5, 52);
+      drawSoft(c, def, null, 26, 26, 21, 0.5, 26 + 21 * shapeInfo(def).bottom * 1.04);
     }
     btn.addEventListener('click', e => {
       selectItem(def);
@@ -1785,7 +1953,10 @@ canvas.addEventListener('pointerdown', e => {
   if (!blob || blob.grow < 0.5 || softPtr !== null) return;
   const c = blobCenter();
   const px = (x - c.x) / c.R, py = (y - c.y) / c.R;
-  if (Math.hypot(px, py) > (blob.def.pull ? 1.35 : 1.15)) return;
+  // 실제 모양(발가락, 딸기 끝 등)을 기준으로 몸 위를 눌렀는지 본다. 약간 여유를 준다
+  const idx = (Math.round((Math.atan2(py, px) / TAU) * NP) + NP) % NP;
+  const reach = blob.def.pull ? 1.35 : shapeInfo(blob.def).rest[idx] * (1 + blob.d[idx]) + 0.2;
+  if (Math.hypot(px, py) > reach) return;
   softPtr = e.pointerId;
   try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* 캡처가 안 되어도 놀이는 가능 */ }
   pressStart(px, py, px);
