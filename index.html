@@ -735,18 +735,18 @@ function playSound(style, kind, pan, n) {
 /* 종류마다 자기만의 소리 세트를 쓴다. 다른 종류와 같은 파일을 나눠 쓰지 않는다 */
 const SOFT_SND = {
   // 말랑이: 마른 스퀴시와 통통 튀는 소리
-  paw: { press: ['paw_p1', 'paw_p2'], hold: ['paw_h1'], release: ['paw_r1'] },
-  peach: { press: ['peach_p1', 'peach_p2'], hold: ['peach_h1'], release: ['peach_r1', 'peach_r2'] },
+  paw: { press: ['paw_p1', 'paw_p2', 'ds_1'], hold: ['paw_h1'], release: ['paw_r1'] },
+  peach: { press: ['peach_p1', 'peach_p2'], hold: ['peach_h1'], release: ['peach_r1', 'peach_r2', 'wf_1'] },
   berry: { press: ['berry_p1', 'berry_p2', 'berry_p3', 'berry_p4'], hold: ['berry_h1', 'berry_h2'], release: ['berry_r1', 'berry_r2'] },
-  toast: { press: ['toast_p1', 'toast_p2'], hold: ['toast_h1'], release: ['toast_r1', 'toast_r2', 'toast_r3'] },
-  pudding: { press: ['pud_p1', 'pud_p2', 'pud_p3'], hold: ['pud_h1'], release: ['pud_r1', 'pud_r2'] },
+  toast: { press: ['toast_p1', 'toast_p2', 'bs_1'], hold: ['toast_h1'], release: ['toast_r1', 'toast_r2', 'toast_r3'] },
+  pudding: { press: ['pud_p1', 'pud_p2', 'pud_p3'], hold: ['pud_h1', 'jj_1'], release: ['pud_r1', 'pud_r2'] },
   // 슬라임: 젖은 점액과 물방울 소리
   green: {
-    press: ['gel_2', 'gel_3', 'gel_5'], hold: ['gel_9'], move: ['gel_1', 'gel_4', 'gel_7', 'gel_8', 'gel_10'],
+    press: ['gel_2', 'gel_3', 'gel_5', 'sl_2', 'sl_3'], hold: ['gel_9', 'sl_c'], move: ['gel_1', 'gel_4', 'gel_7', 'gel_8', 'gel_10'],
     release: ['gel_6'], snap: ['slime_step', 'gel_6']
   },
   glitter: {
-    press: ['goo_1', 'goo_4'], hold: ['goo_6'], move: ['goo_2', 'goo_3', 'goo_5', 'goo_8'],
+    press: ['goo_1', 'goo_4', 'wk_2'], hold: ['goo_6'], move: ['goo_2', 'goo_3', 'goo_5', 'goo_8', 'wk_3'],
     release: ['goo_7', 'glit_b1'], snap: ['glit_b2', 'goo_7']
   },
   galaxy: {
