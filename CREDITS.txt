@@ -1,0 +1,18 @@
+효과음 출처 (sounds.js)
+
+아래 소리는 모두 OpenGameArt.org 에서 받은 CC0(퍼블릭 도메인) 자료입니다.
+CC0는 출처 표시 없이 자유롭게 써도 되지만, 찾아볼 수 있도록 적어 둡니다.
+게임에 쓰려고 mp3(모노)로 변환하고 앞쪽 무음 제거, 볼륨 정규화를 했습니다.
+
+- Squish Sounds Effects            https://opengameart.org/content/squish-sounds-effects
+- 40 CC0 water / splash / slime SFX https://opengameart.org/content/40-cc0-water-splash-slime-sfx
+- 25 CC0 mud sfx                   https://opengameart.org/content/25-cc0-mud-sfx
+- Crunch sounds (cucumber)         https://opengameart.org/content/crunch-sounds-cucumber
+- Crunch sounds (burnt toast)      https://opengameart.org/content/crunch-sounds-burnt-toast
+- 7 eating crunches                https://opengameart.org/content/7-eating-crunches
+- 75 CC0 breaking / falling / hit SFX https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx
+- deep bone crack/break SFX        https://opengameart.org/content/deep-bone-crackbreak-sfx
+- glass break                      https://opengameart.org/content/glass-break
+- 3 pop sounds                     https://opengameart.org/content/3-pop-sounds
+- pop sounds                       https://opengameart.org/content/pop-sounds
+- bubbles pop                      https://opengameart.org/content/bubbles-pop
